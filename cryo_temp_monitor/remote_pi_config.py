@@ -23,12 +23,14 @@ pi_config = dict(
 
     crontab_params = {'MEASUREMENT_FREQ':0.5,   # frequency of measurements in mins
                       'PY_PATH':'/home/jimmy-neutron/miniconda3/bin/python3',
-                      'SCRIPT_PATH':os.path.join(os.getcwd(),'schedule_temp_logging.py'),
+                      'SCRIPT_PATH':os.path.join(os.getcwd(),'log_cryo_temp.py'),
+                      'SCRIPT_TAG':'cryo_temp_log'
                       },
     
     teams_params = {'connector_card':"https://heriotwatt.webhook.office.com/webhookb2/36c66bd3-00f2-4593-9e53-9c5f95266f6b@6c425ff2-6865-42df-a4db-8e6af634813d/IncomingWebhook/97d2037215c54c3fa8eb01726c4e9d34/4665a5e6-0877-4796-b0de-b51e14e780be/V2OMZXlFjEVYfvc9z4WPZSMTbHBAIWuI6OP0rAyPbtXxQ1",
                     'title':'Oxford Instruments Cryostat',
                     'message':'Current Temperature: ',
                     'update_freq':30, # frequency of teams meassages in mins
-                    }
+                    'SCRIPT_PATH':os.path.join(os.getcwd(),'send_temp_update_teams.py'),
+                    'SCRIPT_TAG':'cryo_temp_teams_msg'}
 )

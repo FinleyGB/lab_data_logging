@@ -28,7 +28,12 @@ class OxfordCryoLog:
         self.fields = ['Date (D/M/Y)', 'Time (H:M:S)', 'T1 (K)', 'T2 (K)', 'T3 (K)', 'T4 (K)']
 
     def get_temps(self):
-        return self.sim922.get_temps()
+        try:
+            return self.sim922.get_temps()
+        except Exception as e:
+            print(f"Temp acquisition failed: {e}")
+            self._send_critical_error(e)
+            raise
 
     def log_to_csv(self, filename):
         filepath = os.path.join(self.log_dir, f"{filename}.csv")
@@ -58,6 +63,16 @@ class OxfordCryoLog:
             teams_msg.send()
         except Exception as e:
             print(f"Teams notification failed: {e}")
+
+    def _send_critical_error(self, error):
+        """Handles Teams notifications on final failure."""
+        try:
+            # Use the webhook from your original script
+            myTeamsMessage = pymsteams.connectorcard(self.webhook_url)
+            myTeamsMessage.text(f"Temp sensor error: {error}")
+            myTeamsMessage.send()
+        except Exception as notify_err:
+            print(f"Could not send Teams alert: {notify_err}")
 
     def close(self):
         if hasattr(self.sim900, 'mframe'):

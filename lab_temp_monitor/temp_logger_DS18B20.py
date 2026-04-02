@@ -3,6 +3,7 @@ import glob
 import time
 import csv
 import pathlib
+import pymsteams
 from datetime import datetime, timedelta
 # from pi_config import pi_config
 
@@ -11,7 +12,10 @@ class TemperatureLogger:
         self.config = config
         self.sensor_params = config['sensor_params']
         self.dir_params = config['temp_dir_params']
-        
+
+        self.webhook_url = config['teams_params']['connector_card']
+        self.title = config['teams_params']['title']
+
         # Base directory for DS18B20 sensors
         self.base_dir = self.sensor_params['SENSOR_DIR']
         
@@ -96,13 +100,24 @@ class TemperatureLogger:
                     raise
                 time.sleep(delay)
 
+    def send_teams_status(self):
+        """
+        Sends a structured card to Teams using pymsteams.
+        color: Hex code (default is a nice blue). Use "FF0000" for alerts.
+        """
+        try:
+            teams_msg = pymsteams.connectorcard(self.webhook_url)
+            teams_msg.title(self.title)
+            teams_msg.text(f'Current temperature: {[self.read_temp_ds18b20(f) for f in self.device_files]}')
+            teams_msg.send()
+        except Exception as e:
+            print(f"Teams notification failed: {e}")
+
     def _send_critical_error(self, error):
         """Handles Teams notifications on final failure."""
         try:
-            import pymsteams
             # Use the webhook from your original script
-            webhook = "https://heriotwatt.webhook.office.com/webhookb2/..." 
-            myTeamsMessage = pymsteams.connectorcard(webhook)
+            myTeamsMessage = pymsteams.connectorcard(self.webhook_url)
             myTeamsMessage.text(f"Temp sensor error on Pi: {error}")
             myTeamsMessage.send()
         except Exception as notify_err:

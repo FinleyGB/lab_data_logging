@@ -4,11 +4,13 @@ from log_cryo_temp import pi_config
 # Access the crontab for the current user
 cron = CronTab(user=True)
 
-script_path = 'configure_teams_updates.py'
-script_tag = 'cryo_temp_teams_msg'
+python_path = pi_config['crontab_params']['PY_PATH']
+
+script_path = pi_config['teams_params']['SCRIPT_PATH']
+script_tag = pi_config['teams_params']['SCRIPT_TAG']
 
 # Create a new job
-job = cron.new(command=f'python3 {script_path}', 
+job = cron.new(command=f'{python_path} {script_path}', 
                comment=script_tag)
 
 # Set the schedule (Every day at 2:30 AM)
