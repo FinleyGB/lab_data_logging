@@ -16,3 +16,17 @@ repeat measurements are handled on the os level with crontab.
 - To pause the cron, run the script "pause_temp_logging.py"
 - To resume the cron, run the script "resume_temp_logging.py"
 
+Following scripts are to be run on the raspberry pi:
+- log_temp.py
+- temp_logger_DS18B20.py        (file contains data acquisition class)
+- schedule_temp_logging.py
+- pause_temp_logging.py
+- resume_temp_logging.py
+
+Following scrips can to copy temp log files on any machine
+- temp_data_remote_copy.py (file contains remote copy class)
+
+requirements:
+- paramiko
+- python-crontab
+- pymsteams
