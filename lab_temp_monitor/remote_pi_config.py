@@ -22,8 +22,8 @@ pi_config = dict(
 
     crontab_params = {'MEASUREMENT_FREQ':60,
                       'PY_PATH':'/home/jimmy-neutron/miniconda3/bin/python3',
-                      'SCRIPT_PATH':os.path.join(os.getcwd(),'setup_temp_logging.py'),
-                      },
+                      'SCRIPT_PATH':os.path.join(os.getcwd(),'log_temp.py'),
+                      'SCRIPT_TAG':'DS18B20_temp_logging'},
     
     teams_params = {'connector_card':"https://heriotwatt.webhook.office.com/webhookb2/36c66bd3-00f2-4593-9e53-9c5f95266f6b@6c425ff2-6865-42df-a4db-8e6af634813d/IncomingWebhook/97d2037215c54c3fa8eb01726c4e9d34/4665a5e6-0877-4796-b0de-b51e14e780be/V2OMZXlFjEVYfvc9z4WPZSMTbHBAIWuI6OP0rAyPbtXxQ1",
                     }
